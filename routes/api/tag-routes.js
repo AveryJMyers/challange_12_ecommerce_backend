@@ -75,7 +75,7 @@ router.put('/:id', async (req, res) => {
     res.status(500).json(err)
   }
 });
-
+// delete by id route
 router.delete('/:id', async (req, res) => {
   try{
     const tagData = await Tag.destroy({

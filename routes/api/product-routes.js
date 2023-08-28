@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const { Product, Category, Tag, ProductTag } = require('../../models');
 
-// The `/api/products` endpoint
 
 // get all products
 router.get('/', async (req, res) => {
+  // find all products, include tag and category
   try {
     const productData = await Product.findAll({
       include: [
@@ -38,6 +38,7 @@ router.get('/:id', async (req, res) => {
         },
       ],
     })
+    // Catch if no product found
     if (!productData){
       res.status(404).json({ message: 'no product with this id'})
     }
@@ -49,7 +50,7 @@ router.get('/:id', async (req, res) => {
 
 }); 
     
-
+// Create a new product
 router.post('/', async (req, res) => {
   // create a new tag
   try{
@@ -64,6 +65,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   // update a category by its `id` value
   try{
+    // pulls everything from the body of the request
     const productData = await Product.update(
       {
         category_name: req.body.category_name,
@@ -77,7 +79,7 @@ router.put('/:id', async (req, res) => {
         }
       }
     );
-    
+    // catch if no product found
     if (!productData){
       res.status(404).json({ message: 'No category found with this id'})
       return;
@@ -88,7 +90,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-
+//delete product
 router.delete('/:id', async (req, res) => {
   try{
     const productData = await Product.destroy({
